@@ -1,4 +1,4 @@
-public abstract class Searchable {
+  abstract class Searchable {
 
     public abstract String getSearchTerm();
 }

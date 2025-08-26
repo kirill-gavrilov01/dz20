@@ -1,10 +1,12 @@
+
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class SearchEngine {
 
-    public Searchable findBestMatch(List<? extends Searchable> items, String search) {
+    Searchable findBestMatch(List<? extends Searchable> items, String search) {
         if (items == null || items.isEmpty() || search == null || search.isEmpty()) {
-            return null; // Обработка граничных случаев
+            throw new IllegalArgumentException("Items list or search string cannot be empty");
         }
 
         Searchable bestItem = null;
@@ -18,16 +20,22 @@ public class SearchEngine {
             }
         }
 
+        if (bestItem == null) {
+            throw new NoSuchElementException("No matching element found");
+        }
+
         return bestItem;
     }
+
 
     private int countOccurrences(String text, String subText) {
         int count = 0;
         int startIndex = 0;
-        while ((startIndex = text.indexOf(subText, startIndex)) >= 0) {
+        while ((startIndex = text.indexOf(subText, startIndex)) != -1) {
             count++;
-            startIndex += subText.length();
+            startIndex += subText.length(); // Переходим дальше после найденного совпадения
         }
         return count;
     }
 }
+
